@@ -12,7 +12,6 @@ class Piece
       if board.in_board?(position) && board[position] == nil
         board[position], board[self.pos] = self, nil
         self.pos = position
-        puts "gets here"
         maybe_promote
         return true
       end
@@ -81,9 +80,7 @@ class Piece
   end
 
   def perform_moves!(move_sequence)
-    p move_sequence
     if move_sequence.length == 1
-      puts "Gets here"
       if perform_slide(move_sequence[0])
         perform_slide(move_sequence[0]) 
       elsif perform_jump(move_sequence[0])

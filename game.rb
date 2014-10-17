@@ -31,24 +31,36 @@ class Game
   def get_user_input
     puts "#{color_to_s}'s turn:"
     puts "Enter a position to move from and a position or positions to move to"
-    puts "Like so: verticlehorizontal verticalhorizontal verticalhorizontal ...etc"
-    handle_user_input(gets.chomp)
+    puts "Like so: verticlehorizontal *enter* verticalhorizontal *enter*" 
+    puts "verticalhorizontal ...etc"
+    thing = gets.chomp
+    result = []
+    while possible_inputs.include?(thing) || result.length < 2
+      result << handle_user_input(thing)
+      thing = gets.chomp
+    end
+    if result.empty?
+      raise "Please enter the correct input"
+    end
+    result
   end
   
   def handle_user_input(string)
     # unless possible_inputs.include?(string)
 #       raise "Please enter the correct input"
 #     end
-    init_arr = string.split(' ')
-    result = []
-    init_arr.each do |pos|
-      result << pos.split('').map{ |i| i.to_i}
-    end
-    result
+    result = string.split('').map{ |i| i.to_i}
   end
   
   def possible_inputs
     #need to figure out how to implement this, could be a very long string
+    result = []
+    0.upto(7) do |i|
+      0.upto(7) do |j|
+        result << "#{i}#{j}"
+      end
+    end
+    result
   end
   
   def color_to_s(color = nil)
