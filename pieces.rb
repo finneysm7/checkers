@@ -1,3 +1,4 @@
+#encoding: utf-8
 class Piece
   attr_accessor :pos, :color, :board, :promoted
   def initialize(pos, color, board, promoted = false)
@@ -73,14 +74,16 @@ class Piece
 
   def display_value
     unless @promoted
-      self.color == :white ? " w " : " r "
+      self.color == :white ? " w " : " b "
     else
-      self.color == :white ? " W " : " R "
+      self.color == :white ? " W " : " B "
     end
   end
 
   def perform_moves!(move_sequence)
+    p move_sequence
     if move_sequence.length == 1
+      puts "Gets here"
       if perform_slide(move_sequence[0])
         perform_slide(move_sequence[0]) 
       elsif perform_jump(move_sequence[0])
@@ -110,11 +113,14 @@ class Piece
     end
   end
 
-  def perform_moves(move_sequence)
+  def perform_moves(move_sequence, color)
+    if self.color != color
+      raise "Please pick the right color piece"
+    end
     if valid_move_seq?(move_sequence)
       perform_moves!(move_sequence)
     else
-      raise "Invalid Move ERRERERERERROR"
+      raise "Something went wrong, try again"
     end
   end
 
